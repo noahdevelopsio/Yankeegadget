@@ -1,0 +1,172 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  passwordHash  String?
+  role          Role     @default(CUSTOMER)
+  phone         String?
+  createdAt     DateTime @default(now())
+  addresses     Address[]
+  orders        Order[]
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  STAFF
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  parentId  String?
+  parent    Category? @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryToCategory")
+  products  Product[]
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  brand           String?
+  description     String
+  shortDescription String?
+  price           Int      // store in kobo (or kobo equivalent) to avoid float issues
+  compareAtPrice  Int?
+  stock           Int      @default(0)
+  sku             String?  @unique
+  images          ProductImage[]
+  categoryId      String
+  category        Category @relation(fields: [categoryId], references: [id])
+  variants        ProductVariant[]
+  specs           Json?    // flexible spec table
+  metaTitle       String?
+  metaDescription String?
+  isPublished     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  orderItems      OrderItem[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  altText   String?
+  position  Int     @default(0)
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String  // e.g. "Color", "Storage"
+  value     String  // e.g. "Midnight Black", "256GB"
+  priceDiff Int     @default(0)
+  stock     Int     @default(0)
+}
+
+model Address {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  phone     String
+  state     String
+  lga       String
+  street    String
+  isDefault Boolean @default(false)
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  guestEmail      String?
+  guestPhone      String?
+  status          OrderStatus @default(PENDING)
+  items           OrderItem[]
+  subtotal        Int
+  deliveryFee     Int
+  total           Int
+  deliveryState   String
+  deliveryLga     String
+  deliveryAddress String
+  payment         Payment?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+  variantInfo Json?
+  quantity    Int
+  unitPrice   Int
+}
+
+model Payment {
+  id                String   @id @default(cuid())
+  orderId           String   @unique
+  order             Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  flutterwaveTxRef  String   @unique
+  flutterwaveTxId   String?
+  status            PaymentStatus @default(PENDING)
+  amount            Int
+  channel           String?  // card, banktransfer, ussd
+  rawWebhookPayload Json?
+  verifiedAt        DateTime?
+  createdAt         DateTime @default(now())
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  ABANDONED
+}
+
+model AdminActivityLog {
+  id        String   @id @default(cuid())
+  adminId   String
+  action    String
+  entity    String
+  entityId  String
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
+model Coupon {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  type          String   // "percent" | "fixed"
+  value         Int
+  isActive      Boolean  @default(true)
+  expiresAt     DateTime?
+}

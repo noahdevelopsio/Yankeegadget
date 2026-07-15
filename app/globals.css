@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-orange: 255, 61, 0; /* #FF3D00 */
+    --brand-orange-light: 255, 122, 51; /* #FF7A33 */
+    --ink-900: 11, 11, 15; /* #0B0B0F */
+    --ink-700: 58, 58, 66; /* #3A3A42 */
+    --ink-400: 138, 138, 148; /* #8A8A94 */
+    --surface: 255, 255, 255; /* #FFFFFF */
+    --surface-alt: 246, 246, 248; /* #F6F6F8 */
+    --border: 231, 231, 235; /* #E7E7EB */
+    --success: 22, 163, 74; /* #16A34A */
+    --warning: 245, 158, 11; /* #F59E0B */
+    --error: 220, 38, 38; /* #DC2626 */
+  }
+
+  body {
+    background-color: rgb(var(--surface));
+    color: rgb(var(--ink-900));
+    font-family: var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Custom input focus outlines */
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid rgba(var(--brand-orange), 0.5);
+    outline-offset: 1px;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(var(--brand-orange), 0.3);
+  }
+  
+  .bg-glass {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .bg-glass-dark {
+    background-color: rgba(11, 11, 15, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .border-glass {
+    border-color: rgba(var(--border), 0.5);
+  }
+
+  .shadow-premium {
+    box-shadow: 0 4px 20px -2px rgba(11, 11, 15, 0.05), 0 2px 8px -1px rgba(11, 11, 15, 0.03);
+  }
+
+  .shadow-premium-hover {
+    box-shadow: 0 12px 30px -4px rgba(11, 11, 15, 0.08), 0 4px 12px -2px rgba(11, 11, 15, 0.05);
+  }
+
+  .shadow-orange-glow {
+    box-shadow: 0 0 25px -5px rgba(var(--brand-orange), 0.4);
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--surface-alt));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--ink-400), 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ink-700), 0.7);
+}
+
+/* Page transitions / utility */
+.transition-all-200 {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
