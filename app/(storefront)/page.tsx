@@ -240,7 +240,7 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {categories.map((cat) => {
-              const imageSrc = cat.image || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop";
+              const imageSrc = ("image" in cat ? (cat.image as string) : "") || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop";
               return (
                 <Link
                   key={cat.id}
