@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { initializePayment } from "@/lib/flutterwave";
 
 export interface CheckoutInput {
   fullName: string;
@@ -162,12 +163,21 @@ export async function createOrder(data: CheckoutInput) {
       };
     });
 
+    const paymentUrl = await initializePayment({
+      txRef: result.txRef,
+      amountInKobo: result.totalAmount,
+      email,
+      name: fullName,
+      phone,
+    });
+
     return {
       success: true,
       orderNumber: result.orderNumber,
       orderId: result.orderId,
       txRef: result.txRef,
       totalAmount: result.totalAmount,
+      paymentUrl,
     };
 
   } catch (error: any) {

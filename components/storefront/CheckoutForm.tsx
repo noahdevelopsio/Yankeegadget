@@ -146,10 +146,10 @@ export default function CheckoutForm() {
 
       const res = await createOrder(orderData);
 
-      if (res.success) {
-        // Order created successfully. Redirect to Success Page
+      if (res.success && (res as any).paymentUrl) {
+        // Order created successfully. Redirect to Flutterwave checkout link
         clearCart();
-        router.push(`/checkout/success?orderNumber=${res.orderNumber}`);
+        window.location.href = (res as any).paymentUrl;
       } else {
         setError(res.error || "Failed to create order. Please try again.");
       }
