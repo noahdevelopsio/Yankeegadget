@@ -44,17 +44,17 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-glass shadow-premium">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between gap-4">
+        <div className="flex h-16 items-center justify-between gap-4">
           
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center">
             <Image
               src="/logo.svg"
               alt="Yankee Gadgets"
-              width={160}
-              height={46}
+              width={180}
+              height={52}
               priority
-              className="h-9 w-auto object-contain"
+              className="h-10 md:h-11 w-auto object-contain"
             />
           </Link>
 

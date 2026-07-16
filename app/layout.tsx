@@ -60,7 +60,7 @@ export default function RootLayout({
         
         {/* Navbar inside suspense because it uses useSearchParams */}
         <Suspense fallback={
-          <div className="h-20 border-b border-border bg-glass animate-pulse" />
+          <div className="h-16 border-b border-border bg-glass animate-pulse" />
         }>
           <Navbar />
         </Suspense>
