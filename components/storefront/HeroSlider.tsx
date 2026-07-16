@@ -89,15 +89,32 @@ export default function HeroSlider() {
     >
       {/* Injected style tag for pure custom float animations */}
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes heroImgFloat {
+        .hero-glow {
+          position: absolute;
+          width: 480px;
+          height: 480px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255,84,20,0.25), transparent 70%);
+          filter: blur(40px);
+          z-index: 0;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+        }
+        .hero-product-img {
+          position: relative;
+          z-index: 1;
+          transform: rotate(-6deg);
+          filter: drop-shadow(0 30px 40px rgba(0,0,0,0.5));
+          animation: heroFloat 4s ease-in-out infinite;
+        }
+        @keyframes heroFloat {
           0%, 100% { transform: rotate(-6deg) translateY(0); }
           50% { transform: rotate(-6deg) translateY(-12px); }
         }
-        .animate-hero-float {
-          animation: heroImgFloat 4s ease-in-out infinite;
-        }
         @media (prefers-reduced-motion: reduce) {
-          .animate-hero-float {
+          .hero-product-img {
             animation: none !important;
             transform: rotate(-6deg) !important;
           }
@@ -173,7 +190,7 @@ export default function HeroSlider() {
                 {/* Media Showcase Block */}
                 <div className="lg:col-span-5 flex justify-center relative">
                   {/* Radial glow background aligned directly behind the image */}
-                  <div className="absolute w-[320px] h-[320px] rounded-full bg-gradient-to-r from-brand-orange/20 to-transparent blur-[40px] z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+                  <div className="hero-glow" />
                   
                   <div className="relative w-64 h-64 sm:w-80 sm:h-80 z-10 flex items-center justify-center">
                     {slide.type === "welcome" ? (
@@ -186,13 +203,13 @@ export default function HeroSlider() {
                     ) : (
                       // Promo Slide Cutout + Float + Tilt styling
                       slide.image && (
-                        <div className="relative w-full h-full animate-hero-float transition-all pointer-events-none">
+                        <div className="hero-product-img w-full h-full pointer-events-none">
                           <Image
                             src={slide.image.src}
                             alt={slide.image.alt}
                             fill
                             priority
-                            className="object-contain filter drop-shadow-[0_25px_30px_rgba(0,0,0,0.65)]"
+                            className="object-contain"
                           />
                         </div>
                       )
