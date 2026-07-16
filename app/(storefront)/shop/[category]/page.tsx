@@ -12,124 +12,13 @@ interface CategoryPageProps {
   };
 }
 
-const FALLBACK_CATEGORIES = [
-  {
-    name: "Phones",
-    slug: "phones",
-    intro: "Upgrade to the latest smartphones in Nigeria. From Apple iPhones to Samsung Galaxy series, Yankee Gadgets offers premium mobile phones with store warranty and fast delivery across Lagos and nationwide. Buy high-spec devices at the best market prices."
-  },
-  {
-    name: "Earbuds",
-    slug: "earbuds",
-    intro: "Experience pristine audio with our curated selection of wireless earbuds and headphones in Lagos. We source noise-canceling earphones from top brands like Sony, Apple, and Bose. Unmatched sound, quick pairing, and long battery life."
-  },
-  {
-    name: "Accessories",
-    slug: "accessories",
-    intro: "Equip your devices with top-quality accessories. From Apple fast chargers and power adapters to high-performance PlayStation controllers and HDMI cables, Yankee Gadgets keeps you connected with genuine accessories built to last."
-  },
-  {
-    name: "Gaming",
-    slug: "gaming",
-    intro: "Dive into incredible virtual worlds. Explore our collections of top-rated PlayStation 5 games, new arrivals, and popular multiplayer titles in Ikeja, Lagos. Best prices on physical disc games and expansions."
-  },
-  {
-    name: "Consoles",
-    slug: "consoles",
-    intro: "Get the latest gaming consoles in Nigeria. We stock the PlayStation 5 Slim Disc and Digital Editions, offering lightning-fast loading, immersive haptics, and spectacular 4K gaming. Rest assured with genuine consoles and store warranty support."
-  }
-];
-
-const FALLBACK_PRODUCTS = [
-  {
-    id: "p1",
-    name: "iPhone 15 Pro Max 256GB",
-    slug: "iphone-15-pro-max-256gb",
-    brand: "Apple",
-    price: 185000000,
-    compareAtPrice: 195000000,
-    stock: 12,
-    categorySlug: "phones",
-    images: [{ url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop", altText: "iPhone 15 Pro Max" }],
-  },
-  {
-    id: "p2",
-    name: "Samsung Galaxy S24 Ultra",
-    slug: "samsung-galaxy-s24-ultra",
-    brand: "Samsung",
-    price: 175000000,
-    compareAtPrice: 185000000,
-    stock: 8,
-    categorySlug: "phones",
-    images: [{ url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600&auto=format&fit=crop", altText: "Galaxy S24 Ultra" }],
-  },
-  {
-    id: "p3",
-    name: "Sony WF-1000XM5 Wireless Earbuds",
-    slug: "sony-wf-1000xm5-earbuds",
-    brand: "Sony",
-    price: 25000000,
-    compareAtPrice: 28000000,
-    stock: 15,
-    categorySlug: "earbuds",
-    images: [{ url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop", altText: "Sony WF-1000XM5" }],
-  },
-  {
-    id: "p4",
-    name: "PlayStation 5 Slim Digital Edition",
-    slug: "playstation-5-slim-digital",
-    brand: "Sony",
-    price: 64000000,
-    compareAtPrice: 68000000,
-    stock: 6,
-    categorySlug: "consoles",
-    images: [{ url: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=600&auto=format&fit=crop", altText: "PS5 Slim Digital" }],
-  },
-  {
-    id: "p5",
-    name: "Apple AirPods Pro 2",
-    slug: "apple-airpods-pro-2",
-    brand: "Apple",
-    price: 32000000,
-    compareAtPrice: null,
-    stock: 20,
-    categorySlug: "earbuds",
-    images: [{ url: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=600&auto=format&fit=crop", altText: "AirPods Pro 2" }],
-  },
-  {
-    id: "p6",
-    name: "PlayStation 5 Disc Edition",
-    slug: "playstation-5-disc-edition",
-    brand: "Sony",
-    price: 72000000,
-    compareAtPrice: null,
-    stock: 4,
-    categorySlug: "consoles",
-    images: [{ url: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop", altText: "PS5 Disc Edition" }],
-  },
-  {
-    id: "p7",
-    name: "DualSense Edge Wireless Controller",
-    slug: "dualsense-edge-wireless-controller",
-    brand: "Sony",
-    price: 24000000,
-    compareAtPrice: null,
-    stock: 10,
-    categorySlug: "accessories",
-    images: [{ url: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?q=80&w=600&auto=format&fit=crop", altText: "DualSense Edge" }],
-  },
-  {
-    id: "p8",
-    name: "Apple 20W USB-C Power Adapter",
-    slug: "apple-20w-usbc-power-adapter",
-    brand: "Apple",
-    price: 2500000,
-    compareAtPrice: 3000000,
-    stock: 50,
-    categorySlug: "accessories",
-    images: [{ url: "https://images.unsplash.com/photo-1619137839356-9e8a946cf61c?q=80&w=600&auto=format&fit=crop", altText: "Apple 20W Adapter" }],
-  },
-];
+const CATEGORY_INTROS: Record<string, string> = {
+  phones: "Upgrade to the latest smartphones in Nigeria. From Apple iPhones to Samsung Galaxy series, Yankee Gadgets offers premium mobile phones with store warranty and fast delivery across Lagos and nationwide. Buy high-spec devices at the best market prices.",
+  earbuds: "Experience pristine audio with our curated selection of wireless earbuds and headphones in Lagos. We source noise-canceling earphones from top brands like Sony, Apple, and Bose. Unmatched sound, quick pairing, and long battery life.",
+  accessories: "Equip your devices with top-quality accessories. From Apple fast chargers and power adapters to high-performance PlayStation controllers and HDMI cables, Yankee Gadgets keeps you connected with genuine accessories built to last.",
+  gaming: "Dive into incredible virtual worlds. Explore our collections of top-rated PlayStation 5 games, new arrivals, and popular multiplayer titles in Ikeja, Lagos. Best prices on physical disc games and expansions.",
+  consoles: "Get the latest gaming consoles in Nigeria. We stock the PlayStation 5 Slim Disc and Digital Editions, offering lightning-fast loading, immersive haptics, and spectacular 4K gaming. Rest assured with genuine consoles and store warranty support."
+};
 
 async function getCategoryData(slug: string) {
   try {
@@ -141,7 +30,6 @@ async function getCategoryData(slug: string) {
       return {
         category: null,
         products: [],
-        dbConnected: true,
       };
     }
 
@@ -160,38 +48,26 @@ async function getCategoryData(slug: string) {
       },
     });
 
-    // Determine fallback description intro
-    const fallbackCat = FALLBACK_CATEGORIES.find(c => c.slug === slug);
     const categoryWithIntro = {
       ...category,
-      intro: fallbackCat ? fallbackCat.intro : `Shop top quality products and accessories under the ${category.name} category. Premium devices at unbeatable prices.`
+      intro: CATEGORY_INTROS[slug] || `Shop top quality products and accessories under the ${category.name} category. Premium devices at unbeatable prices.`
     };
 
     return {
       category: categoryWithIntro,
-      products: products.length > 0 ? products : [],
-      dbConnected: true,
+      products,
     };
   } catch (error) {
-    console.warn("Database connection failed, serving mock fallback data on Category Page:", error);
-
-    const fallbackCat = FALLBACK_CATEGORIES.find(c => c.slug === slug);
-    const mockCategory = fallbackCat
-      ? { id: `m-${slug}`, name: fallbackCat.name, slug: fallbackCat.slug, intro: fallbackCat.intro }
-      : null;
-
-    const mockProducts = FALLBACK_PRODUCTS.filter(p => p.categorySlug === slug);
-
+    console.error("Database connection failed on Category Page:", error);
     return {
-      category: mockCategory,
-      products: mockProducts,
-      dbConnected: false,
+      category: null,
+      products: [],
     };
   }
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { category, products, dbConnected } = await getCategoryData(params.category);
+  const { category, products } = await getCategoryData(params.category);
 
   if (!category) {
     return (

@@ -9,83 +9,9 @@ import { ShieldCheck, Truck, RotateCcw, ChevronRight } from "lucide-react";
 
 export const revalidate = 60; // ISR revalidation every 60s
 
-// Mock Fallback Products in case database is empty or connection fails
-const FALLBACK_PRODUCTS = [
-  {
-    id: "p1",
-    name: "iPhone 15 Pro Max 256GB",
-    slug: "iphone-15-pro-max-256gb",
-    brand: "Apple",
-    description: "Experience the ultimate iPhone with a titanium design, revolutionary new 48MP main camera, and the industry-leading A17 Pro chip. The lightweight aerospace-grade titanium build makes it incredibly strong yet comfortable to hold.",
-    shortDescription: "Titanium design, A17 Pro chip, Action button, and 5x Telephoto camera.",
-    price: 185000000,
-    compareAtPrice: 195000000,
-    stock: 12,
-    sku: "AP-IP15PM-256",
-    specs: {
-      "Screen Size": "6.7 inches",
-      "Processor": "A17 Pro",
-      "Storage": "256GB",
-      "Camera": "48MP Main + 12MP Ultra Wide + 12MP 5x Telephoto",
-      "Weight": "221g"
-    },
-    images: [{ url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop", altText: "iPhone 15 Pro Max" }],
-    variants: [
-      { id: "v1", name: "Color", value: "Natural Titanium", priceDiff: 0, stock: 5 },
-      { id: "v2", name: "Color", value: "Blue Titanium", priceDiff: 0, stock: 4 },
-      { id: "v3", name: "Color", value: "Black Titanium", priceDiff: 0, stock: 3 }
-    ],
-    category: { name: "Phones", slug: "phones" }
-  },
-  {
-    id: "p3",
-    name: "Sony WF-1000XM5 Wireless Earbuds",
-    slug: "sony-wf-1000xm5-earbuds",
-    brand: "Sony",
-    description: "The WF-1000XM5 features cutting-edge technology to deliver premium sound quality and the best truly wireless noise-canceling performance on the market.",
-    shortDescription: "The best noise-canceling earbuds with high-res audio and crystal-clear calls.",
-    price: 25000000,
-    compareAtPrice: 28000000,
-    stock: 15,
-    sku: "SN-WF1000XM5",
-    specs: {
-      "Battery Life": "Up to 8 hours (24 hours with case)",
-      "Bluetooth Version": "5.3",
-      "Water Resistance": "IPX4",
-      "Noise Cancelling": "Yes, dual processors"
-    },
-    images: [{ url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop", altText: "Sony WF-1000XM5" }],
-    variants: [
-      { id: "v4", name: "Color", value: "Black", priceDiff: 0, stock: 10 },
-      { id: "v5", name: "Color", value: "Silver", priceDiff: 0, stock: 5 }
-    ],
-    category: { name: "Earbuds", slug: "earbuds" }
-  },
-  {
-    id: "p4",
-    name: "PlayStation 5 Slim Digital Edition",
-    slug: "playstation-5-slim-digital",
-    brand: "Sony",
-    description: "Experience lightning-fast loading with an ultra-high-speed SSD, deeper immersion with support for haptic feedback, adaptive triggers and 3D Audio, and an all-new generation of incredible PlayStation games.",
-    shortDescription: "Slim design, 1TB SSD storage, haptic feedback, 4K gaming, and digital-only play.",
-    price: 64000000,
-    compareAtPrice: 68000000,
-    stock: 6,
-    sku: "SN-PS5S-DIG",
-    specs: {
-      "Storage Capacity": "1TB custom SSD",
-      "Graphics": "Ray Tracing Acceleration, up to 120fps with 120Hz output",
-      "Audio": "Tempest 3D AudioTech"
-    },
-    images: [{ url: "/ps5_black_bg_1784215126064.png", altText: "PS5 Slim Digital" }],
-    variants: [],
-    category: { name: "Consoles", slug: "consoles" }
-  }
-];
-
 async function getProductDetail(slug: string) {
   try {
-    const product = await prisma.product.findUnique({
+    return await prisma.product.findUnique({
       where: { slug },
       include: {
         images: {
@@ -95,24 +21,13 @@ async function getProductDetail(slug: string) {
         category: true,
       },
     });
-
-    if (!product) {
-      const fallback = FALLBACK_PRODUCTS.find((p) => p.slug === slug);
-      return { product: fallback || null, dbConnected: true };
-    }
-
-    return { product, dbConnected: true };
   } catch (error) {
-    console.warn("Database connection failed, serving mock product detail:", error);
-    const fallback = FALLBACK_PRODUCTS.find((p) => p.slug === slug);
-    return { product: fallback || null, dbConnected: false };
+    console.error("Database connection failed on Product Detail:", error);
+    return null;
   }
 }
 
-async function getRelatedProducts(categoryId: string, excludeProductId: string, dbConnected: boolean) {
-  if (!dbConnected) {
-    return FALLBACK_PRODUCTS.filter((p) => p.id !== excludeProductId).slice(0, 4);
-  }
+async function getRelatedProducts(categoryId: string, excludeProductId: string) {
   try {
     return await prisma.product.findMany({
       where: {
@@ -128,20 +43,21 @@ async function getRelatedProducts(categoryId: string, excludeProductId: string, 
       },
     });
   } catch (error) {
-    return FALLBACK_PRODUCTS.filter((p) => p.id !== excludeProductId).slice(0, 4);
+    console.error("Failed to query related products:", error);
+    return [];
   }
 }
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const { product, dbConnected } = await getProductDetail(params.slug);
+  const product = await getProductDetail(params.slug);
 
   if (!product) {
     notFound();
   }
 
   // Related Recommendations
-  const categoryId = (product as any).categoryId || "";
-  const relatedProducts = await getRelatedProducts(categoryId, product.id, dbConnected);
+  const categoryId = product.categoryId || "";
+  const relatedProducts = await getRelatedProducts(categoryId, product.id);
 
   // Parse specs JSON safely
   const specsTable: Record<string, string> = typeof product.specs === "object" && product.specs !== null

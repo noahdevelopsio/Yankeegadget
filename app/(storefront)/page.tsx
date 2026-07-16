@@ -6,58 +6,6 @@ import ProductCard from "@/components/storefront/ProductCard";
 import HeroSlider from "@/components/storefront/HeroSlider";
 import { ShieldCheck, Truck, CreditCard, ArrowRight } from "lucide-react";
 
-// Mock Fallback Data in case Prisma DB is not synced/available yet
-const FALLBACK_CATEGORIES = [
-  { id: "c1", name: "Phones", slug: "phones", image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=400&auto=format&fit=crop" },
-  { id: "c2", name: "Earbuds", slug: "earbuds", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop" },
-  { id: "c3", name: "Accessories", slug: "accessories", image: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?q=80&w=400&auto=format&fit=crop" },
-  { id: "c4", name: "Gaming", slug: "gaming", image: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=400&auto=format&fit=crop" },
-  { id: "c5", name: "Consoles", slug: "consoles", image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=400&auto=format&fit=crop" },
-];
-
-const FALLBACK_PRODUCTS = [
-  {
-    id: "p1",
-    name: "iPhone 15 Pro Max 256GB",
-    slug: "iphone-15-pro-max-256gb",
-    brand: "Apple",
-    price: 185000000,
-    compareAtPrice: 195000000,
-    stock: 12,
-    images: [{ url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop", altText: "iPhone 15 Pro Max" }],
-  },
-  {
-    id: "p2",
-    name: "Samsung Galaxy S24 Ultra",
-    slug: "samsung-galaxy-s24-ultra",
-    brand: "Samsung",
-    price: 175000000,
-    compareAtPrice: 185000000,
-    stock: 8,
-    images: [{ url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600&auto=format&fit=crop", altText: "Galaxy S24 Ultra" }],
-  },
-  {
-    id: "p3",
-    name: "Sony WF-1000XM5 Wireless Earbuds",
-    slug: "sony-wf-1000xm5-earbuds",
-    brand: "Sony",
-    price: 25000000,
-    compareAtPrice: 28000000,
-    stock: 15,
-    images: [{ url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop", altText: "Sony WF-1000XM5" }],
-  },
-  {
-    id: "p4",
-    name: "PlayStation 5 Slim Digital Edition",
-    slug: "playstation-5-slim-digital",
-    brand: "Sony",
-    price: 64000000,
-    compareAtPrice: 68000000,
-    stock: 6,
-    images: [{ url: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=600&auto=format&fit=crop", altText: "PS5 Slim Digital" }],
-  },
-];
-
 export const revalidate = 60; // Revalidate page data every 60s (ISR)
 
 async function getHomeData() {
@@ -88,26 +36,23 @@ async function getHomeData() {
       },
     });
 
-    // If DB is empty, use fallbacks
     return {
-      categories: categories.length > 0 ? categories : FALLBACK_CATEGORIES,
-      newArrivals: newArrivals.length > 0 ? newArrivals : FALLBACK_PRODUCTS,
-      bestSellers: bestSellers.length > 0 ? bestSellers : FALLBACK_PRODUCTS.slice().reverse(),
-      dbConnected: true,
+      categories,
+      newArrivals,
+      bestSellers,
     };
   } catch (error) {
-    console.warn("Database connection failed, serving mock fallback data on Homepage:", error);
+    console.error("Database query failed on Homepage:", error);
     return {
-      categories: FALLBACK_CATEGORIES,
-      newArrivals: FALLBACK_PRODUCTS,
-      bestSellers: FALLBACK_PRODUCTS.slice().reverse(),
-      dbConnected: false,
+      categories: [],
+      newArrivals: [],
+      bestSellers: [],
     };
   }
 }
 
 export default async function HomePage() {
-  const { categories, newArrivals, bestSellers, dbConnected } = await getHomeData();
+  const { categories, newArrivals, bestSellers } = await getHomeData();
 
   return (
     <div className="flex flex-col min-h-screen">

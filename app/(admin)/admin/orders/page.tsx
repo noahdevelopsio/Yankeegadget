@@ -3,12 +3,6 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { ClipboardList, ChevronRight } from "lucide-react";
 
-// Mock Fallback lists
-const MOCK_ORDERS = [
-  { id: "o1", orderNumber: "YG-782103-M1", guestEmail: "obi@example.com", guestPhone: "+234 901 000 0000", total: 64000000, status: "PENDING", deliveryState: "Lagos", createdAt: new Date() },
-  { id: "o2", orderNumber: "YG-623912-M2", guestEmail: "shade@example.com", guestPhone: "+234 802 000 0000", total: 185000000, status: "PAID", deliveryState: "Abuja", createdAt: new Date(Date.now() - 3600000) },
-];
-
 async function getOrders() {
   try {
     const orders = await prisma.order.findMany({
@@ -16,15 +10,15 @@ async function getOrders() {
         createdAt: "desc",
       },
     });
-    return { orders, dbConnected: true };
+    return { orders };
   } catch (error) {
-    console.warn("Database connection failed, serving mock orders:", error);
-    return { orders: MOCK_ORDERS, dbConnected: false };
+    console.error("Database connection failed on Orders List:", error);
+    return { orders: [] };
   }
 }
 
 export default async function AdminOrdersPage() {
-  const { orders, dbConnected } = await getOrders();
+  const { orders } = await getOrders();
 
   const formatPrice = (amountInKobo: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -33,14 +27,6 @@ export default async function AdminOrdersPage() {
       minimumFractionDigits: 0,
     }).format(amountInKobo / 100);
   };
-
-  return (
-    <div className="space-y-6">
-      {!dbConnected && (
-        <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg border border-warning/20">
-          ⚠️ Serving mock order list. Configure your database to pull live customer orders.
-        </div>
-      )}
 
       {/* Header */}
       <div className="pb-4 border-b border-border">

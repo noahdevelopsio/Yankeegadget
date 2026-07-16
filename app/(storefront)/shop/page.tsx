@@ -18,114 +18,6 @@ interface ShopPageProps {
   };
 }
 
-// Fallback products for rendering when DB is not configured/populated yet
-const FALLBACK_PRODUCTS = [
-  {
-    id: "p1",
-    name: "iPhone 15 Pro Max 256GB",
-    slug: "iphone-15-pro-max-256gb",
-    brand: "Apple",
-    price: 185000000,
-    compareAtPrice: 195000000,
-    stock: 12,
-    categoryId: "c1",
-    categorySlug: "phones",
-    images: [{ url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop", altText: "iPhone 15 Pro Max" }],
-  },
-  {
-    id: "p2",
-    name: "Samsung Galaxy S24 Ultra",
-    slug: "samsung-galaxy-s24-ultra",
-    brand: "Samsung",
-    price: 175000000,
-    compareAtPrice: 185000000,
-    stock: 8,
-    categoryId: "c1",
-    categorySlug: "phones",
-    images: [{ url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600&auto=format&fit=crop", altText: "Galaxy S24 Ultra" }],
-  },
-  {
-    id: "p3",
-    name: "Sony WF-1000XM5 Wireless Earbuds",
-    slug: "sony-wf-1000xm5-earbuds",
-    brand: "Sony",
-    price: 25000000,
-    compareAtPrice: 28000000,
-    stock: 15,
-    categoryId: "c2",
-    categorySlug: "earbuds",
-    images: [{ url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop", altText: "Sony WF-1000XM5" }],
-  },
-  {
-    id: "p4",
-    name: "PlayStation 5 Slim Digital Edition",
-    slug: "playstation-5-slim-digital",
-    brand: "Sony",
-    price: 64000000,
-    compareAtPrice: 68000000,
-    stock: 6,
-    categoryId: "c5",
-    categorySlug: "consoles",
-    images: [{ url: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=600&auto=format&fit=crop", altText: "PS5 Slim Digital" }],
-  },
-  {
-    id: "p5",
-    name: "Apple AirPods Pro 2",
-    slug: "apple-airpods-pro-2",
-    brand: "Apple",
-    price: 32000000,
-    compareAtPrice: null,
-    stock: 20,
-    categoryId: "c2",
-    categorySlug: "earbuds",
-    images: [{ url: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=600&auto=format&fit=crop", altText: "AirPods Pro 2" }],
-  },
-  {
-    id: "p6",
-    name: "PlayStation 5 Disc Edition",
-    slug: "playstation-5-disc-edition",
-    brand: "Sony",
-    price: 72000000,
-    compareAtPrice: null,
-    stock: 4,
-    categoryId: "c5",
-    categorySlug: "consoles",
-    images: [{ url: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop", altText: "PS5 Disc Edition" }],
-  },
-  {
-    id: "p7",
-    name: "DualSense Edge Wireless Controller",
-    slug: "dualsense-edge-wireless-controller",
-    brand: "Sony",
-    price: 24000000,
-    compareAtPrice: null,
-    stock: 10,
-    categoryId: "c3",
-    categorySlug: "accessories",
-    images: [{ url: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?q=80&w=600&auto=format&fit=crop", altText: "DualSense Edge" }],
-  },
-  {
-    id: "p8",
-    name: "Apple 20W USB-C Power Adapter",
-    slug: "apple-20w-usbc-power-adapter",
-    brand: "Apple",
-    price: 2500000,
-    compareAtPrice: 3000000,
-    stock: 50,
-    categoryId: "c3",
-    categorySlug: "accessories",
-    images: [{ url: "https://images.unsplash.com/photo-1619137839356-9e8a946cf61c?q=80&w=600&auto=format&fit=crop", altText: "Apple 20W Adapter" }],
-  },
-];
-
-const FALLBACK_CATEGORIES = [
-  { id: "c1", name: "Phones", slug: "phones" },
-  { id: "c2", name: "Earbuds", slug: "earbuds" },
-  { id: "c3", name: "Accessories", slug: "accessories" },
-  { id: "c4", name: "Gaming", slug: "gaming" },
-  { id: "c5", name: "Consoles", slug: "consoles" },
-];
-
 async function getShopData(params: ShopPageProps["searchParams"]) {
   try {
     const categories = await prisma.category.findMany();
@@ -184,53 +76,20 @@ async function getShopData(params: ShopPageProps["searchParams"]) {
     });
 
     return {
-      categories: categories.length > 0 ? categories : FALLBACK_CATEGORIES,
-      products: products.length > 0 ? products : [],
-      dbConnected: true,
+      categories,
+      products,
     };
   } catch (error) {
-    console.warn("Database connection failed, serving mock fallback data on Shop listing:", error);
-    
-    // Simulate database filtering client-side for mock data
-    let filteredProducts = [...FALLBACK_PRODUCTS];
-
-    if (params.category) {
-      filteredProducts = filteredProducts.filter(p => p.categorySlug === params.category);
-    }
-    if (params.brand) {
-      filteredProducts = filteredProducts.filter(p => p.brand === params.brand);
-    }
-    if (params.search) {
-      const q = params.search.toLowerCase();
-      filteredProducts = filteredProducts.filter(
-        p => p.name.toLowerCase().includes(q) || (p.brand?.toLowerCase() || "").includes(q)
-      );
-    }
-    if (params.minPrice) {
-      const minKobo = parseInt(params.minPrice) * 100;
-      filteredProducts = filteredProducts.filter(p => p.price >= minKobo);
-    }
-    if (params.maxPrice) {
-      const maxKobo = parseInt(params.maxPrice) * 100;
-      filteredProducts = filteredProducts.filter(p => p.price <= maxKobo);
-    }
-
-    if (params.sort === "price_asc") {
-      filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (params.sort === "price_desc") {
-      filteredProducts.sort((a, b) => b.price - a.price);
-    }
-
+    console.error("Database connection failed on Shop listing:", error);
     return {
-      categories: FALLBACK_CATEGORIES,
-      products: filteredProducts,
-      dbConnected: false,
+      categories: [],
+      products: [],
     };
   }
 }
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
-  const { categories, products, dbConnected } = await getShopData(searchParams);
+  const { categories, products } = await getShopData(searchParams);
 
   // Derive unique brands for filters
   const uniqueBrands = ["Apple", "Samsung", "Sony"];

@@ -3,12 +3,6 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import PaymentActions from "./PaymentActions"; // client actions
 
-// Mock Fallback lists
-const MOCK_PAYMENTS = [
-  { id: "pay1", flutterwaveTxRef: "YG-TXREF-782103", flutterwaveTxId: null, amount: 64000000, status: "PENDING", channel: null, order: { orderNumber: "YG-782103-M1" }, createdAt: new Date() },
-  { id: "pay2", flutterwaveTxRef: "YG-TXREF-623912", flutterwaveTxId: "FLW-123456", amount: 185000000, status: "SUCCESSFUL", channel: "card", order: { orderNumber: "YG-623912-M2" }, createdAt: new Date(Date.now() - 3600000) },
-];
-
 async function getPayments() {
   try {
     const payments = await prisma.payment.findMany({
@@ -19,15 +13,15 @@ async function getPayments() {
         createdAt: "desc",
       },
     });
-    return { payments, dbConnected: true };
+    return { payments };
   } catch (error) {
-    console.warn("Database connection failed, serving mock payments:", error);
-    return { payments: MOCK_PAYMENTS, dbConnected: false };
+    console.error("Database connection failed on Payments List:", error);
+    return { payments: [] };
   }
 }
 
 export default async function AdminPaymentsPage() {
-  const { payments, dbConnected } = await getPayments();
+  const { payments } = await getPayments();
 
   const formatPrice = (amountInKobo: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -36,14 +30,6 @@ export default async function AdminPaymentsPage() {
       minimumFractionDigits: 0,
     }).format(amountInKobo / 100);
   };
-
-  return (
-    <div className="space-y-6">
-      {!dbConnected && (
-        <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg border border-warning/20">
-          ⚠️ Serving mock payments list. Configure your database to pull live payment transactions.
-        </div>
-      )}
 
       {/* Header */}
       <div className="pb-4 border-b border-border">

@@ -7,40 +7,9 @@ import { MapPin, Mail, Phone, Calendar, ArrowLeft, Shield } from "lucide-react";
 import Image from "next/image";
 
 // Mock Fallback
-const MOCK_ORDER = {
-  id: "o1",
-  orderNumber: "YG-782103-M1",
-  guestEmail: "obi@example.com",
-  guestPhone: "+234 903 703 6463",
-  subtotal: 61500000,
-  deliveryFee: 250000,
-  total: 64000000,
-  deliveryState: "Lagos",
-  deliveryLga: "Ikeja",
-  deliveryAddress: "1st Floor, Taiyelolu Tower, 2A Olaide Tomori St",
-  status: "PENDING",
-  createdAt: new Date(),
-  items: [
-    {
-      id: "oi1",
-      quantity: 1,
-      unitPrice: 61500000,
-      variantInfo: JSON.stringify({ name: "Color", value: "Midnight Black" }),
-      product: { name: "iPhone 15 Pro Max 256GB", image: "/placeholder.png" },
-    },
-  ],
-  payment: {
-    id: "pay1",
-    flutterwaveTxRef: "YG-TXREF-782103",
-    flutterwaveTxId: null,
-    status: "PENDING",
-    amount: 64000000,
-  },
-};
-
 async function getOrderDetail(id: string) {
   try {
-    const order = await prisma.order.findUnique({
+    return await prisma.order.findUnique({
       where: { id },
       include: {
         items: {
@@ -51,16 +20,14 @@ async function getOrderDetail(id: string) {
         payment: true,
       },
     });
-    return { order, dbConnected: true };
   } catch (error) {
-    console.warn("Database connection failed, serving mock order details:", error);
-    if (id === "o1") return { order: MOCK_ORDER as any, dbConnected: false };
-    return { order: null, dbConnected: false };
+    console.error("Database connection failed on order details:", error);
+    return null;
   }
 }
 
 export default async function AdminOrderDetailPage({ params }: { params: { id: string } }) {
-  const { order, dbConnected } = await getOrderDetail(params.id);
+  const order = await getOrderDetail(params.id);
 
   if (!order) {
     return notFound();
