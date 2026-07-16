@@ -58,10 +58,21 @@ export default function ProductDetailsPanel({ product }: ProductDetailsPanelProp
     setIsAdding(true);
     const mainImage = product.images?.[0]?.url || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop";
     
-    // Construct variant payload summary e.g. "Color: Blue Titanium"
-    const variantInfo = Object.keys(selectedVariants).length > 0
-      ? JSON.stringify(selectedVariants)
-      : undefined;
+    // Find matching selected variant to pass to the cart
+    let selectedVariant: any = undefined;
+    const firstVarName = Object.keys(selectedVariants)[0];
+    if (firstVarName) {
+      const selectedVal = selectedVariants[firstVarName];
+      const match = product.variants.find((v) => v.name === firstVarName && v.value === selectedVal);
+      if (match) {
+        selectedVariant = {
+          id: match.id,
+          name: match.name,
+          value: match.value,
+          priceDiff: match.priceDiff
+        };
+      }
+    }
 
     addItem(
       {
@@ -70,7 +81,7 @@ export default function ProductDetailsPanel({ product }: ProductDetailsPanelProp
         slug: product.slug,
         image: mainImage,
         price: finalPrice,
-        variantInfo,
+        selectedVariant,
       },
       quantity
     );
