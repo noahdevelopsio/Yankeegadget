@@ -182,7 +182,14 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
             {categories.map((cat) => {
-              const imageSrc = ("image" in cat ? (cat.image as string) : "") || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop";
+              const categoryImages: Record<string, string> = {
+                phones: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=400&auto=format&fit=crop",
+                earbuds: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop",
+                accessories: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?q=80&w=400&auto=format&fit=crop",
+                gaming: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=400&auto=format&fit=crop",
+                consoles: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=400&auto=format&fit=crop",
+              };
+              const imageSrc = categoryImages[cat.slug] || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop";
               return (
                 <Link
                   key={cat.id}
