@@ -15,7 +15,7 @@ export default function WhatsAppButton() {
     return () => clearTimeout(timer);
   }, []);
 
-  const phoneNumber = "2348030000000"; // Uncle Emeka's WhatsApp phone number
+  const phoneNumber = "2349037036463"; // Uncle Emeka's WhatsApp phone number
   const message = encodeURIComponent(
     "Hello Yankee Gadgets! I'm browsing your online store and would like to make an inquiry."
   );
