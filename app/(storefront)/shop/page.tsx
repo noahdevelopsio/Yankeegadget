@@ -1,6 +1,8 @@
 import React from "react";
 import prisma from "@/lib/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
+import SortSelect from "@/components/storefront/SortSelect";
+import PriceFilterForm from "@/components/storefront/PriceFilterForm";
 import Link from "next/link";
 
 export const revalidate = 60; // ISR revalidation every 60 seconds
@@ -280,18 +282,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <label htmlFor="sort" className="text-xs font-bold uppercase tracking-wider text-ink-700 shrink-0">
             Sort By
           </label>
-          <select
-            id="sort"
-            defaultValue={searchParams.sort || "newest"}
-            onChange={(e) => {
-              window.location.href = createFilterLink("sort", e.target.value === "newest" ? null : e.target.value);
-            }}
-            className="bg-surface-alt border border-border text-ink-900 text-sm px-3 py-2 rounded-lg"
-          >
-            <option value="newest">Newest Arrivals</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-          </select>
+          <SortSelect currentSort={searchParams.sort || "newest"} />
         </div>
       </div>
 
@@ -392,58 +383,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             <h3 className="text-xs font-bold uppercase tracking-wider text-ink-400">
               Price Range (₦)
             </h3>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.currentTarget;
-                const min = (form.elements.namedItem("minPrice") as HTMLInputElement).value;
-                const max = (form.elements.namedItem("maxPrice") as HTMLInputElement).value;
-                
-                let link = window.location.href;
-                
-                // Construct URL query param updates
-                const url = new URL(link, window.location.origin);
-                if (min) url.searchParams.set("minPrice", min);
-                else url.searchParams.delete("minPrice");
-                
-                if (max) url.searchParams.set("maxPrice", max);
-                else url.searchParams.delete("maxPrice");
-                
-                window.location.href = url.pathname + url.search;
-              }}
-              className="space-y-3"
-            >
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label htmlFor="minPrice" className="sr-only">Min Price</label>
-                  <input
-                    type="number"
-                    id="minPrice"
-                    name="minPrice"
-                    placeholder="Min"
-                    defaultValue={searchParams.minPrice || ""}
-                    className="w-full bg-surface-alt border border-border text-sm px-3 py-2 rounded-lg placeholder-ink-400"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="maxPrice" className="sr-only">Max Price</label>
-                  <input
-                    type="number"
-                    id="maxPrice"
-                    name="maxPrice"
-                    placeholder="Max"
-                    defaultValue={searchParams.maxPrice || ""}
-                    className="w-full bg-surface-alt border border-border text-sm px-3 py-2 rounded-lg placeholder-ink-400"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-ink-900 text-white hover:bg-ink-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
-              >
-                Apply Range
-              </button>
-            </form>
+            <PriceFilterForm
+              initialMinPrice={searchParams.minPrice || ""}
+              initialMaxPrice={searchParams.maxPrice || ""}
+            />
           </div>
 
         </aside>
