@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { loginAction } from "@/app/actions/auth";
 import { Lock, Mail, Loader2, ArrowRight } from "lucide-react";
 

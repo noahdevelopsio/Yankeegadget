@@ -65,7 +65,7 @@ async function getHomeData() {
     const categories = await prisma.category.findMany({
       take: 5,
     });
-    
+
     const newArrivals = await prisma.product.findMany({
       where: { isPublished: true },
       orderBy: { createdAt: "desc" },
@@ -111,11 +111,11 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      
+
       {/* DB Sync Indicator Banner for development */}
       {!dbConnected && process.env.NODE_ENV === "development" && (
         <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 text-center border-b border-warning/20">
-          ⚠️ Running in Mock Data mode. Connect a database and run migrations to display live products.
+          ⚠️ Running in Mock Data mode.
         </div>
       )}
 
@@ -126,7 +126,7 @@ export default async function HomePage() {
       <section className="bg-surface-alt border-y border-border py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {/* Delivery Item */}
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-brand-orange/10 flex items-center justify-center text-brand-orange shrink-0">
@@ -270,7 +270,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 }
