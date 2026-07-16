@@ -27,7 +27,8 @@ export default async function AdminOrdersPage() {
       minimumFractionDigits: 0,
     }).format(amountInKobo / 100);
   };
-
+  return (
+    <div className="space-y-6">
       {/* Header */}
       <div className="pb-4 border-b border-border">
         <h1 className="text-2xl font-display font-black text-ink-900">
