@@ -112,12 +112,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
 
-      {/* DB Sync Indicator Banner for development */}
-      {!dbConnected && process.env.NODE_ENV === "development" && (
-        <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 text-center border-b border-warning/20">
-          ⚠️ Running in Mock Data mode.
-        </div>
-      )}
+
 
       {/* Hero Rotating Slideshow */}
       <HeroSlider />

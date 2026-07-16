@@ -150,12 +150,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      {/* DB Sync Indicator Banner for development */}
-      {!dbConnected && (
-        <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg mb-8 text-center border border-warning/20">
-          ⚠️ Running in Mock Data mode. Connect your database and run seed migrations to display live products.
-        </div>
-      )}
+
 
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink-400 mb-8 overflow-x-auto no-scrollbar">

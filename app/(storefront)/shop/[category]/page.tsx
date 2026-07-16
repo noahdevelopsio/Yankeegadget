@@ -215,11 +215,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-12">
 
-      {!dbConnected && (
-        <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg mb-8 text-center border border-warning/20">
-          ⚠️ Running in Mock Data mode.
-        </div>
-      )}
 
       {/* Back button link */}
       <Link

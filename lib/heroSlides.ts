@@ -22,7 +22,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     eyebrow: "WELCOME TO YANKEE GADGETS",
     headlineLine1: "Your Trusted Gadget Store",
     headlineLine2: "in Ikeja, Lagos",
-    body: "Phones, earbuds, accessories, gaming consoles and more — all in one place, with fast delivery across Lagos and nationwide.",
+    body: "Phones, earbuds, accessories, gaming consoles and more – all in one place, with fast delivery across Lagos and nationwide.",
     primaryCta: { label: "Shop All", href: "/shop" },
     secondaryCta: { label: "Visit Our Store", href: "/contact" },
     isActive: true,
