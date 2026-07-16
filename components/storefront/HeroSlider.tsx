@@ -194,11 +194,15 @@ export default function HeroSlider() {
                   
                   <div className="relative w-64 h-64 sm:w-80 sm:h-80 z-10 flex items-center justify-center">
                     {slide.type === "welcome" ? (
-                      // Welcome Slide Graphic Silhouette
-                      <div className="w-48 h-48 rounded-full border-2 border-brand-orange/30 bg-ink-900/60 flex items-center justify-center backdrop-blur-md relative animate-pulse shadow-premium">
-                        <div className="w-36 h-36 rounded-full border border-brand-orange/20 bg-brand-orange/5 flex items-center justify-center">
-                          <span className="text-xl font-display font-black text-brand-orange tracking-widest">YG</span>
-                        </div>
+                      // Welcome Slide Big Logo
+                      <div className="relative w-64 h-24 sm:w-80 sm:h-32 transition-all">
+                        <Image
+                          src="/logo-dark.svg"
+                          alt="Yankee Gadgets"
+                          fill
+                          priority
+                          className="object-contain filter drop-shadow-[0_10px_20px_rgba(255,80,20,0.15)]"
+                        />
                       </div>
                     ) : (
                       // Promo Slide Cutout + Float + Tilt styling
@@ -223,25 +227,7 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Manual Left/Right Arrow Controls (visible on hover on desktop, always visible on mobile) */}
-      {slides.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-ink-900/60 border border-border/10 text-white flex items-center justify-center hover:bg-brand-orange hover:border-brand-orange transition-all md:opacity-0 md:group-hover:opacity-100"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-ink-900/60 border border-border/10 text-white flex items-center justify-center hover:bg-brand-orange hover:border-brand-orange transition-all md:opacity-0 md:group-hover:opacity-100"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </>
-      )}
+
 
       {/* Dot Indicators */}
       {slides.length > 1 && (
