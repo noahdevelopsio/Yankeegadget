@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
 import ProductCard from "@/components/storefront/ProductCard";
+import HeroSlider from "@/components/storefront/HeroSlider";
 import { ShieldCheck, Truck, CreditCard, ArrowRight } from "lucide-react";
 
 // Mock Fallback Data in case Prisma DB is not synced/available yet
@@ -112,68 +113,14 @@ export default async function HomePage() {
     <div className="flex flex-col min-h-screen">
       
       {/* DB Sync Indicator Banner for development */}
-      {!dbConnected && (
+      {!dbConnected && process.env.NODE_ENV === "development" && (
         <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 text-center border-b border-warning/20">
           ⚠️ Running in Mock Data mode. Connect a database and run migrations to display live products.
         </div>
       )}
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-ink-900 text-white py-20 lg:py-32">
-        {/* Glowing Ambient Background Lights */}
-        <div className="absolute right-0 top-1/4 h-[400px] w-[400px] rounded-full bg-brand-orange/20 blur-[120px]" />
-        <div className="absolute left-1/3 bottom-10 h-[300px] w-[300px] rounded-full bg-[#FF7A33]/10 blur-[100px]" />
-
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Text description */}
-            <div className="lg:col-span-7 space-y-6 max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-orange/20 text-brand-orange tracking-wider uppercase">
-                New Arrival
-              </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[1.05] tracking-tight">
-                PLAYSTATION 5 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-brand-orange-light text-glow">
-                  SLIM EDITION
-                </span>
-              </h1>
-              <p className="text-base sm:text-lg text-ink-400 leading-relaxed font-sans max-w-xl">
-                Experience lightning-fast loading, deeper immersion, and an all-new generation of incredible games. Get the PS5 Slim in Lagos at unbeatable rates.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Link
-                  href="/product/playstation-5-slim-digital"
-                  className="bg-brand-orange text-white hover:bg-brand-orange-light px-8 py-4 rounded-xl text-base font-bold shadow-orange-glow transition-all duration-200"
-                >
-                  Buy Now
-                </Link>
-                <Link
-                  href="/shop"
-                  className="border border-border/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-4 rounded-xl text-base font-bold transition-all duration-200"
-                >
-                  Explore Store
-                </Link>
-              </div>
-            </div>
-
-            {/* Featured Image Showcase */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-72 h-72 sm:w-96 sm:h-96 filter drop-shadow-[0_20px_50px_rgba(255,61,0,0.25)]">
-                <Image
-                  src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=600&auto=format&fit=crop"
-                  alt="PlayStation 5 Slim Showcase"
-                  fill
-                  priority
-                  className="object-contain"
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      {/* Hero Rotating Slideshow */}
+      <HeroSlider />
 
       {/* Trust Strip Section */}
       <section className="bg-surface-alt border-y border-border py-8">

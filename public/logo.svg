@@ -5,6 +5,6 @@
     <path d="M0,0 L103,0 L106,1 L103,10 L97,20 L91,31 L81,48 L70,67 L57,89 L47,106 L33,130 L19,154 L10,169 L4,180 L1,183 L-9,184 L-164,184 L-171,183 L-177,174 L-186,159 L-192,148 L-202,131 L-212,115 L-218,104 L-224,94 L-227,88 L-227,85 L-52,84 L-48,76 L-35,54 L-25,37 L-14,18 L-4,2 Z " fill="#FF5014" transform="translate(695,216)"/>
     <path d="M0,0 L16,0 L28,4 L38,10 L47,20 L53,32 L55,41 L55,55 L51,68 L45,77 L36,86 L24,92 L12,94 L-4,93 L-15,89 L-24,82 L-32,73 L-37,63 L-39,58 L-39,40 L-36,30 L-31,20 L-23,11 L-12,4 Z " fill="#0A0A0C" transform="translate(554,695)"/>
   </g>
-  <text x="145" y="86" font-family="'Space Grotesk', 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="52" letter-spacing="0.5" fill="#0A0A0C">yankee</text>
-  <text x="145" y="134" font-family="'Space Grotesk', 'Segoe UI', system-ui, sans-serif" font-weight="500" font-size="32" letter-spacing="3" fill="#5B5B66">gadgets</text>
+  <text x="155" y="86" font-family="'Space Grotesk', 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="52" letter-spacing="0.5" fill="#0A0A0C">yankee</text>
+  <text x="155" y="134" font-family="'Space Grotesk', 'Segoe UI', system-ui, sans-serif" font-weight="500" font-size="32" letter-spacing="3" fill="#5B5B66">gadgets</text>
 </svg>
