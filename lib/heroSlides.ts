@@ -38,7 +38,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     primaryCta: { label: "Buy Now", href: "/shop/consoles" },
     secondaryCta: { label: "Explore Store", href: "/shop" },
     image: {
-      src: "/ps5_black_bg_1784215126064.png",
+      src: "/ps5-cutout-transparent.png",
       alt: "PlayStation 5 Slim Edition",
     },
     isActive: true,
@@ -54,7 +54,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     primaryCta: { label: "Shop Apple", href: "/shop/phones" },
     secondaryCta: { label: "Compare Specs", href: "/shop" },
     image: {
-      src: "/iphone_cutout_1784215086181.png",
+      src: "/iphone-cutout-transparent.png",
       alt: "iPhone 15 Pro Max Titanium",
     },
     isActive: true,
