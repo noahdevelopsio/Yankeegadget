@@ -29,15 +29,13 @@ const MOCK_ORDER = {
       product: { name: "iPhone 15 Pro Max 256GB", image: "/placeholder.png" },
     },
   ],
-  payments: [
-    {
-      id: "pay1",
-      flutterwaveTxRef: "YG-TXREF-782103",
-      flutterwaveTxId: null,
-      status: "PENDING",
-      amount: 64000000,
-    },
-  ],
+  payment: {
+    id: "pay1",
+    flutterwaveTxRef: "YG-TXREF-782103",
+    flutterwaveTxId: null,
+    status: "PENDING",
+    amount: 64000000,
+  },
 };
 
 async function getOrderDetail(id: string) {
@@ -50,13 +48,13 @@ async function getOrderDetail(id: string) {
             product: true,
           },
         },
-        payments: true,
+        payment: true,
       },
     });
     return { order, dbConnected: true };
   } catch (error) {
     console.warn("Database connection failed, serving mock order details:", error);
-    if (id === "o1") return { order: MOCK_ORDER, dbConnected: false };
+    if (id === "o1") return { order: MOCK_ORDER as any, dbConnected: false };
     return { order: null, dbConnected: false };
   }
 }
@@ -76,7 +74,7 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
     }).format(amountInKobo / 100);
   };
 
-  const payment = order.payments?.[0];
+  const payment = (order as any).payment;
 
   return (
     <div className="space-y-6">
