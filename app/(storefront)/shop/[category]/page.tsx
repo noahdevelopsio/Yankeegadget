@@ -174,7 +174,7 @@ async function getCategoryData(slug: string) {
     };
   } catch (error) {
     console.warn("Database connection failed, serving mock fallback data on Category Page:", error);
-    
+
     const fallbackCat = FALLBACK_CATEGORIES.find(c => c.slug === slug);
     const mockCategory = fallbackCat
       ? { id: `m-${slug}`, name: fallbackCat.name, slug: fallbackCat.slug, intro: fallbackCat.intro }
@@ -213,25 +213,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-      
+    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-12">
+
       {!dbConnected && (
         <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg mb-8 text-center border border-warning/20">
-          ⚠️ Running in Mock Data mode. Connect your database and run `prisma db push` to show real storefront items.
+          ⚠️ Running in Mock Data mode.
         </div>
       )}
 
       {/* Back button link */}
       <Link
         href="/shop"
-        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-ink-700 hover:text-brand-orange transition-colors mb-6"
+        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-ink-700 hover:text-brand-orange transition-colors mb-6 px-2 sm:px-0"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to all products</span>
       </Link>
 
       {/* Category Header & Intro Paragraph (SEO Target) */}
-      <div className="max-w-3xl border-b border-border pb-8 mb-10">
+      <div className="max-w-3xl border-b border-border pb-8 mb-10 px-2 sm:px-0">
         <span className="text-xs font-bold uppercase tracking-widest text-brand-orange">
           Category Portfolio
         </span>
@@ -245,7 +245,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Scoped Products Grid */}
       {products.length === 0 ? (
-        <div className="bg-surface-alt border border-border rounded-xl p-12 text-center">
+        <div className="bg-surface-alt border border-border rounded-xl p-12 text-center mx-2 sm:mx-0">
           <h3 className="text-lg font-display font-bold text-ink-900 mb-2">
             No products in this category yet
           </h3>
@@ -260,7 +260,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {products.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}

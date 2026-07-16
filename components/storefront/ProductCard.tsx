@@ -79,7 +79,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
 
         {/* Dynamic Badge Overlays */}
-        <div className="absolute left-3 top-3 flex flex-col gap-1.5 z-10">
+        <div className="absolute left-2 top-2 sm:left-3 sm:top-3 flex flex-col gap-1 z-10">
           {isOutOfStock ? (
             <span className="bg-error text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full shadow-sm">
               Sold Out
@@ -113,7 +113,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Info details */}
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-3 sm:p-4">
         {product.brand && (
           <span className="text-xs font-semibold uppercase tracking-wider text-ink-400 mb-1">
             {product.brand}

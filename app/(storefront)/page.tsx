@@ -219,8 +219,8 @@ export default async function HomePage() {
 
       {/* Category Tiles Section */}
       <section className="py-16 sm:py-24 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10 px-2 sm:px-0">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-brand-orange">
                 Browse
@@ -238,7 +238,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
             {categories.map((cat) => {
               const imageSrc = ("image" in cat ? (cat.image as string) : "") || "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=400&auto=format&fit=crop";
               return (
@@ -268,8 +268,8 @@ export default async function HomePage() {
 
       {/* New Arrivals Section */}
       <section className="py-16 bg-surface-alt border-y border-border">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10 px-2 sm:px-0">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-brand-orange">
                 Fresh Drops
@@ -287,7 +287,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {newArrivals.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -297,8 +297,8 @@ export default async function HomePage() {
 
       {/* Best Sellers Section */}
       <section className="py-16 sm:py-24 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10 px-2 sm:px-0">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-brand-orange">
                 Popularity
@@ -316,7 +316,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {bestSellers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

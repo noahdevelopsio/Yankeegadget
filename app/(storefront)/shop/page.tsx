@@ -255,7 +255,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-12">
       {!dbConnected && (
         <div className="bg-warning/15 text-warning text-xs font-semibold py-2.5 px-4 rounded-lg mb-8 text-center border border-warning/20">
           ⚠️ Running in Mock Data mode. Connect your PostgreSQL database and run `prisma db push` to show real storefront items.
@@ -466,7 +466,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {products.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
